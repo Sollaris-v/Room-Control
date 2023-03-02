@@ -35,18 +35,43 @@ public class RoomService {
         return roomRepository.save(newObj);
     }
 
+    public void delete(String id) {
+        findById(id);
+        roomRepository.deleteById(id);
+    }
+
+    public List<Room> vacantRoom(){
+        return roomRepository.findByStateRoomIsFalse();
+    }
+
+    public List<Room> occupiedRoom(){
+        return roomRepository.findByStateRoomIsTrue();
+    }
+
+    public List<Room> findByTypeRoom(String text){
+        return roomRepository.findByTypeRoomContainingIgnoreCase(text);
+    }
+
+    public List<Room> simpleVacantRoom(){
+        return roomRepository.simpleVacantRoom();
+    }
+
+    public List<Room> luxuryVacantRoom(){
+        return roomRepository.luxuryVacantRoom();
+    }
+
+
+
+
+
+
+
     private void updateData(Room newObj, Room obj) {
         newObj.setNameRoom(obj.getNameRoom());
         newObj.setTypeRoom(obj.getTypeRoom());
         newObj.setFloorRoom(obj.getFloorRoom());
         newObj.setStateRoom(obj.getStateRoom());
     }
-
-    public void delete(String id) {
-        findById(id);
-        roomRepository.deleteById(id);
-    }
-
 
     public Room fromDTO(RoomDTO objDto) {
         return new Room(objDto.getId(), objDto.getNameRoom(), objDto.getFloorRoom(), objDto.getTypeRoom(), objDto.getStateRoom());

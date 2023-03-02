@@ -1,6 +1,7 @@
 package com.sollarisv.roomcontrol.controllers;
 
 
+import com.sollarisv.roomcontrol.controllers.util.URL;
 import com.sollarisv.roomcontrol.dtos.RoomDTO;
 import com.sollarisv.roomcontrol.models.Room;
 import com.sollarisv.roomcontrol.services.RoomService;
@@ -56,8 +57,41 @@ public class RoomController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping(value = "/vacantRoom")
+    public ResponseEntity<List<RoomDTO>> vacantRoom(){
+        List<Room> list = roomService.vacantRoom();
+        List<RoomDTO> listDto = list.stream().map(x -> new RoomDTO(x)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
+    }
 
+    @GetMapping(value = "/occupiedRoom")
+    public ResponseEntity<List<RoomDTO>> occupiedRoom(){
+        List<Room> list = roomService.occupiedRoom();
+        List<RoomDTO> listDto = list.stream().map(x -> new RoomDTO(x)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
+    }
 
+    @GetMapping(value = "/typeRoomSearch")
+    public ResponseEntity<List<RoomDTO>> findByTypeRoom(@RequestParam(value = "text", defaultValue = "") String text){
+        text = URL.decodeParam(text);
+        List<Room> list = roomService.findByTypeRoom(text);
+        List<RoomDTO> listDto = list.stream().map(x -> new RoomDTO(x)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
+    }
+
+    @GetMapping(value = "/simpleVacantRoom")
+    public ResponseEntity<List<RoomDTO>> simpleVacantRoom(){
+        List<Room> list = roomService.simpleVacantRoom();
+        List<RoomDTO> listDto = list.stream().map(x -> new RoomDTO(x)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
+    }
+
+    @GetMapping(value = "/luxuryVacantRoom")
+    public ResponseEntity<List<RoomDTO>> luxuryVacantRoom(){
+        List<Room> list = roomService.luxuryVacantRoom();
+        List<RoomDTO> listDto = list.stream().map(x -> new RoomDTO(x)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
+    }
 
 
 }
